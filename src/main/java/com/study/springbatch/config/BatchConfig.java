@@ -22,6 +22,8 @@ public class BatchConfig {
     @Bean
     public Job batchJob() {
         return jobBuilderFactory.get("batchJob")
+            // id가 시퀀셜하게 따지고 새로운 job이 생성됨
+            // RunIdParameter가 BATCH_JOB_EXECUTION_PARAMS 테이블에 저장되어야 함
             .incrementer(new RunIdIncrementer())
             .start(this.batchStep())
             .build();
