@@ -6,10 +6,10 @@ import lombok.Getter;
 public class Person {
     private int id;
     private String name;
-    private String age;
+    private int age;
     private String address;
 
-    public Person(int id, String name, String age, String address) {
+    public Person(int id, String name, int age, String address) {
         this.id = id;
         this.name = name;
         this.age = age;
