@@ -1,5 +1,8 @@
 package com.study.springbatch.config;
 
+import com.study.springbatch.config.BatchListener.SavePersonAnnotationJobExecutionListener;
+import com.study.springbatch.config.BatchListener.SavePersonJobExecutionListener;
+import com.study.springbatch.config.BatchListener.SavePersonStepExecutionListener;
 import javax.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +41,8 @@ public class SavePersonConfiguration {
         return this.jobBuilderFactory.get("savePersonJob")
             .incrementer(new RunIdIncrementer())
             .start(this.savePersonStep(null)) //null로 설정해도 spring이 자동으로 allowDuplicate를 파라미터로 설정해줌
+            .listener(new SavePersonJobExecutionListener())
+            .listener(new SavePersonAnnotationJobExecutionListener())
             .build();
     }
 
@@ -49,6 +54,7 @@ public class SavePersonConfiguration {
             .reader(itemReader())
             .processor(new DuplicateValidationProcessor<>(Person::getName, Boolean.parseBoolean(allowDuplicate)))
             .writer(itemWriter())
+            .listener(new SavePersonStepExecutionListener())
             .build();
     }
 

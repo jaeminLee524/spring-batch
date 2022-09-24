@@ -1,3 +1,4 @@
+/*
 package com.study.springbatch.springbatch;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -84,3 +85,4 @@ public class SavePersonConfigrationTest {
             .isEqualTo(100);
     }
 }
+*/
