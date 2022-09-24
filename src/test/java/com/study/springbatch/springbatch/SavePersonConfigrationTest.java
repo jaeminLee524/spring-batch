@@ -81,6 +81,6 @@ public class SavePersonConfigrationTest {
             .mapToInt(StepExecution::getWriteCount)
             .sum())
             .isEqualTo(personRepository.count())
-            .isEqualTo(10);
+            .isEqualTo(100);
     }
 }
