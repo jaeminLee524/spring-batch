@@ -9,8 +9,8 @@ spring:
   sql:
     init:
       mode: always
-      data-locations: person.sql
-      schema-locations: person.sql
+#      data-locations: person.sql
+#      schema-locations: person.sql
   jpa:
     hibernate:
       ddl-auto: create
