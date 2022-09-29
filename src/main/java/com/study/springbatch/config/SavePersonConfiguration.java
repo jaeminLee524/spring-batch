@@ -61,7 +61,9 @@ public class SavePersonConfiguration {
             .listener(new SavePersonStepExecutionListener())
             .faultTolerant() // 메소드를 통해 skip과 같은 메소드 호출 가능, faultTolerant 없으면 호출 불가
             .skip(NotFoundNameException.class)
-            .skipLimit(3)
+            .skipLimit (3)
+            .retry(NotFoundNameException.class)
+            .retryLimit(3)
             .build();
     }
 
@@ -77,7 +79,7 @@ public class SavePersonConfiguration {
         };
 
             CompositeItemProcessor<Person, Person> itemProcessor = new CompositeItemProcessorBuilder()
-                .delegates(validationProcessor, duplicateValidationProcessor)
+                .delegates(new PersonValidationRetryProcessor(), validationProcessor, duplicateValidationProcessor)
                 .build();
 
             itemProcessor.afterPropertiesSet();

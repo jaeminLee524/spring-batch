@@ -33,4 +33,8 @@ public class Person {
         return Objects.nonNull(this.name) && !name.isEmpty();
     }
 
+    public Person unknownName() {
+        this.name = "UNKNOWN";
+        return this;
+    }
 }
