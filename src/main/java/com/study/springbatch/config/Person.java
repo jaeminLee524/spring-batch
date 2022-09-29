@@ -1,5 +1,6 @@
 package com.study.springbatch.config;
 
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,4 +28,9 @@ public class Person {
         this.age = age;
         this.address = address;
     }
+
+    public boolean isNotEmptyName() {
+        return Objects.nonNull(this.name) && !name.isEmpty();
+    }
+
 }
