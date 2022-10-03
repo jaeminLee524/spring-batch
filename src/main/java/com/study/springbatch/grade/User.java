@@ -1,6 +1,8 @@
 package com.study.springbatch.grade;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -29,12 +31,25 @@ public class User {
 
     private int totalAmount;
 
-    private LocalDateTime updatedDate;
+    private LocalDate updatedDate;
 
     @Builder
     public User(String username, int totalAmount) {
         this.username = username;
         this.totalAmount = totalAmount;
+    }
+
+    public boolean availableLevelUp() {
+        return Level.availableLevelUp(this.getLevel(), this.getTotalAmount());
+
+    }
+
+    public Level levelUp() {
+        Level nextLevel = Level.getNextLevel(this.getTotalAmount());
+        this.level = nextLevel;
+        this.updatedDate = LocalDate.now();
+
+        return nextLevel;
     }
 
     public enum Level {
@@ -49,6 +64,40 @@ public class User {
         Level(int nextAmount, Level nextLevel) {
             this.nextAmount = nextAmount;
             this.nextLevel = nextLevel;
+        }
+
+        private static boolean availableLevelUp(Level level, int totalAmount) {
+            if (Objects.isNull(level)) {
+                // 잘못된 파라미터를 보냈다는 에러
+                return false;
+            }
+
+            if (Objects.isNull(level.nextLevel)) {
+                // 최대 레벨에 도달했다는 에러
+                return false;
+            }
+
+            return totalAmount >= level.nextAmount;
+        }
+
+        private static Level getNextLevel(int totalAmount) {
+            if (totalAmount >= Level.VIP.nextAmount) {
+                return VIP;
+            }
+
+            if (totalAmount >= Level.GOLD.nextAmount) {
+                return GOLD;
+            }
+
+            if (totalAmount >= Level.SILVER.nextAmount) {
+                return SILVER;
+            }
+
+            if (totalAmount >= Level.NORMAL.nextAmount) {
+                return NORMAL;
+            }
+
+            return NORMAL;
         }
     }
 }
