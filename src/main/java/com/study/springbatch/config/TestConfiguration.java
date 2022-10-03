@@ -1,3 +1,4 @@
+/*
 package com.study.springbatch.config;
 
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -16,3 +17,4 @@ public class TestConfiguration {
         return new JobLauncherTestUtils();
     }
 }
+*/
