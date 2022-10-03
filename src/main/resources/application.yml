@@ -2,18 +2,9 @@ spring:
   batch:
     job:
       names: ${job.name:NONE}
-    jdbc:
-      initialize-schema:
   datasource:
     driver-class-name: org.h2.Driver
-  sql:
-    init:
-      mode: always
-#      data-locations: person.sql
-#      schema-locations: person.sql
   jpa:
     hibernate:
       ddl-auto: create
     show-sql: true
-  main:
-    allow-bean-definition-overriding: true
