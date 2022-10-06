@@ -1,5 +1,7 @@
 package com.study.springbatch.grade;
 
+import com.study.springbatch.config.Orders;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +13,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 
 @RequiredArgsConstructor
 public class SaveUserTasklet implements Tasklet {
+    private static final int SIZE = 100;
 
     private final UserRepository userRepository;
 
@@ -28,30 +31,46 @@ public class SaveUserTasklet implements Tasklet {
 
     private List<User> createUsers() {
         List<User> users = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < SIZE; i++) {
             users.add(User.builder()
-                .totalAmount(1_000)
+                .ordersList(Collections.singletonList(Orders.builder()
+                    .amount(1_000)
+                    .createDate(LocalDate.of(2020, 11, 1))
+                    .build()))
+//                .totalAmount(1_000)
                 .username("test username " + i)
                 .build());
         }
 
-        for (int i = 100; i < 200; i++) {
+        for (int i = 0; i < SIZE; i++) {
             users.add(User.builder()
-                .totalAmount(200_000)
+                .ordersList(Collections.singletonList(Orders.builder()
+                    .amount(200_000)
+                    .createDate(LocalDate.of(2020, 11, 2))
+                    .build()))
+//                .totalAmount(200_000)
                 .username("test username " + i)
                 .build());
         }
 
-        for (int i = 200; i < 300; i++) {
+        for (int i = 0; i < SIZE; i++) {
             users.add(User.builder()
-                .totalAmount(300_000)
+                .ordersList(Collections.singletonList(Orders.builder()
+                    .amount(300_000)
+                    .createDate(LocalDate.of(2020, 11, 3))
+                    .build()))
+//                .totalAmount(300_000)
                 .username("test username " + i)
                 .build());
         }
 
-        for (int i = 300; i < 400; i++) {
+        for (int i = 0; i < SIZE; i++) {
             users.add(User.builder()
-                .totalAmount(500_000)
+                .ordersList(Collections.singletonList(Orders.builder()
+                    .amount(500_000)
+                    .createDate(LocalDate.of(2020, 11, 4))
+                    .build()))
+//                .totalAmount(500_000)
                 .username("test username " + i)
                 .build());
         }

@@ -1,14 +1,21 @@
 package com.study.springbatch.grade;
 
+import static javax.persistence.CascadeType.PERSIST;
+
+import com.study.springbatch.config.Orders;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,19 +36,29 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Level level = Level.NORMAL;
 
-    private int totalAmount;
+//    private int totalAmount;
+
+    @OneToMany(cascade = PERSIST)
+    @JoinColumn(name = "user_id")
+    private List<Orders> ordersList;
 
     private LocalDate updatedDate;
 
     @Builder
-    public User(String username, int totalAmount) {
+    public User(String username, List<Orders> ordersList) {
         this.username = username;
-        this.totalAmount = totalAmount;
+        this.ordersList = ordersList;
     }
 
     public boolean availableLevelUp() {
         return Level.availableLevelUp(this.getLevel(), this.getTotalAmount());
 
+    }
+
+    private int getTotalAmount() {
+        return this.ordersList.stream()
+            .mapToInt(Orders::getAmount)
+            .sum();
     }
 
     public Level levelUp() {
